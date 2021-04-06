@@ -34,18 +34,18 @@ export default class Island {
         canvas.drawArc(baseData);
     }
 
-    addChild() {
-        const child = new Island(this.islandController);
-        const relation = new Relation(this, child, 1, 1, 0);
+    addChildIsland(speed, duration, direction) {
+        const child = new Island(this._islandController);
+        const relation = new Relation(this, child, speed, duration, direction);
         this._childrenRelations.push(relation);
-        child.parentRelation(relation);
+        child.parentRelation = relation;
     }
 
     getIslandAndChildren() {
-        const children = [];
+        let children = [];
 
         this._childrenRelations.forEach(relation => {
-            children.push(relation.toIsland.getIslandAndChildren());
+            children = children.concat(relation.toIsland.getIslandAndChildren());
         });
         
         children.push(this);

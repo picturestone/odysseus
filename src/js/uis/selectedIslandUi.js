@@ -30,8 +30,21 @@ export default class SelectedIslandUi {
         `));
 
         // Add current state of island
-        $container.append(this.getStaticProperty('x', this.island.x));
-        $container.append(this.getStaticProperty('y', this.island.y));
+        const xString = `${Math.round(this.island.x * 100) / 100} SM`;
+        $container.append(this.getStaticProperty('x', xString));
+        const yString = `${Math.round(this.island.y * 100) / 100} SM`;
+        $container.append(this.getStaticProperty('y', yString));
+
+        // Add button to add islands
+        const $newIslandButton = $(`
+            <button type="button" class="btn btn-primary">
+                Neue abhängige Insel
+            </button>
+        `);
+        $container.append($newIslandButton);
+        $newIslandButton.on('click', () => {
+            this.islandController.addRelatedIsland(1, 1, 45);
+        });
     }
 
     getStaticProperty(name, value) {

@@ -13,6 +13,29 @@ export default class IslandController {
         this.renderAllIslands();
     }
 
+    addRelatedIsland(speed, duration, direction) {
+        const selectedIsland = this.getSelectedIsland();
+        if (selectedIsland) {
+            this.getSelectedIsland().addChildIsland(speed, duration, direction);
+            this.renderAllIslands();
+        }
+    }
+
+    getSelectedIsland() {
+        const islands = this.getIslands();
+        let selected = null;
+        let i = 0;
+
+        while(i < islands.length && !selected) {
+            if(islands[i].isSelected) {
+                selected = islands[i];
+            }
+            i++;
+        }
+
+        return selected;
+    }
+
     selectIsland(island) {
         this.deselectIsland(false);
         island.isSelected = true;
@@ -35,7 +58,7 @@ export default class IslandController {
     }
 
     renderAllIslands() {
-        this.canvasController.render(this.parentIslands);
+        this.canvasController.render(this.getIslands());
     }
 
     // TODO Returns all islands
