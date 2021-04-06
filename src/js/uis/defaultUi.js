@@ -1,15 +1,15 @@
-export default class MenuController {
-    constructor(islandController) {
-        this.$el = $('.js-o-ui');
-        this.islandController = islandController;
+export default class DefaultUi {
+    constructor(uiController) {
+        this.$el = uiController.$el;
+        this.islandController = uiController.islandController;
     }
 
-    showDefault() {
+    show() {
         this.$el.empty();
 
         const $newIslandButton = $(`
             <button type="button" class="btn btn-primary">
-                Neue Insel hinzufügen
+                Neue unabhängige Insel
             </button>
         `);
 

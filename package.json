@@ -83,6 +83,7 @@
   },
   "target": "web",
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.3",
     "@popperjs/core": "^2.9.2",
     "bootstrap": "^5.0.0-beta3",
     "jcanvas": "^21.0.1",
