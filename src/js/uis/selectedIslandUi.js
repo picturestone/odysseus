@@ -146,7 +146,7 @@ export default class SelectedIslandUi {
             `));
         } else if(type === 'textarea') {
             container.append($(`
-                <textarea name="${name}" class="form-control w-50" rows="3">${value}</textarea>
+                <textarea name="${name}" class="form-control w-50" rows="2">${value}</textarea>
             `));
         } else {
             container.append($(`<input name="${name}" class="form-control w-50" type="${type}" value="${value}">`));
