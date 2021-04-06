@@ -13,8 +13,31 @@ export default class IslandController {
         this.renderAllIslands();
     }
 
+    addRelatedIsland(speed, duration, direction) {
+        const selectedIsland = this.getSelectedIsland();
+        if (selectedIsland) {
+            this.getSelectedIsland().addChildIsland(speed, duration, direction);
+            this.renderAllIslands();
+        }
+    }
+
+    getSelectedIsland() {
+        const islands = this.getIslands();
+        let selected = null;
+        let i = 0;
+
+        while(i < islands.length && !selected) {
+            if(islands[i].isSelected) {
+                selected = islands[i];
+            }
+            i++;
+        }
+
+        return selected;
+    }
+
     selectIsland(island) {
-        this.deselectIsland();
+        this.deselectIsland(false);
         island.isSelected = true;
         this.uiController.showSelectedIsland(island);
         // Rerender islands.
@@ -22,22 +45,39 @@ export default class IslandController {
     }
 
     // Sets all islands to unselected
-    deselectIsland() {
-        // TODO Get all islands, deselect every island, then set selected for the island from parameter.
-        this.parentIslands.forEach(island => {
+    deselectIsland(isRendering = true) {
+        const islands = this.getIslands();
+        islands.forEach(island => {
             island.isSelected = false;
         });
         this.uiController.showDefault();
         // Rerender islands.
-        this.renderAllIslands();
+        if (isRendering) {
+            this.renderAllIslands();
+        }
     }
 
     renderAllIslands() {
-        this.canvasController.render(this.parentIslands);
+        this.canvasController.render(this.getIslands());
     }
 
-    // TODO Returns all islands
+    // Recalculates the position of this island and all children after relation to parent changed.
+    recalculatePositions(island) {
+        // Update positions of island and all sub islands
+        island.getIslandAndChildren().forEach(subIsland => {
+            subIsland.recalculatePosition();
+        });
+        // Rerender islands.
+        this.renderAllIslands();
+    }
+
     getIslands() {
-        
+        let islands = [];
+
+        this.parentIslands.forEach(island => {
+            islands = islands.concat(island.getIslandAndChildren());
+        });
+
+        return islands;
     }
 }
