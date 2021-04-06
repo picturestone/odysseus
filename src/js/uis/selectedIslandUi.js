@@ -60,6 +60,7 @@ export default class SelectedIslandUi {
 
             // Add form fields
             $formContainer.append(this.getDynamicProperty('Name', 'name', this.island.name, 'text'));
+            $formContainer.append(this.getDynamicProperty('Notiz', 'note', this.island.note, 'textarea'));
             $formContainer.append(this.getDynamicProperty('Speed [ktn]', 'speed', this.island.parentRelation.speed, 'number', 1));
             $formContainer.append(this.getDynamicProperty('Dauer [Stunden]', 'duration', this.island.parentRelation.duration, 'number', 1));
             $formContainer.append(this.getDynamicProperty('Richtung [Grad]', 'direction', this.island.parentRelation.direction, 'number', 0));
@@ -80,6 +81,7 @@ export default class SelectedIslandUi {
                     return obj;
                 }, {});
                 this.island.name = data.name;
+                this.island.note = data.note;
                 this.island.parentRelation.speed = getFloatFromString(data.speed, 1);
                 this.island.parentRelation.duration = getFloatFromString(data.duration, 1);
                 this.island.parentRelation.direction = getFloatFromString(data.direction, 0);
@@ -97,6 +99,7 @@ export default class SelectedIslandUi {
 
             // Add form fields
             $formContainer.append(this.getDynamicProperty('Name', 'name', this.island.name, 'text'));
+            $formContainer.append(this.getDynamicProperty('Notiz', 'note', this.island.note, 'textarea'));
             $formContainer.append(this.getDynamicProperty('x', 'x', convertCoordinatesToMiles(this.island.x)));
             $formContainer.append(this.getDynamicProperty('y', 'y', convertCoordinatesToMiles(this.island.y)));
 
@@ -113,6 +116,8 @@ export default class SelectedIslandUi {
                     return obj;
                 }, {});
                 this.island.name = data.name;
+                this.island.note = data.note;
+                console.log(data);
                 this.island.x = convertMilesToCoordinates(data.x);
                 this.island.y = convertMilesToCoordinates(data.y);
                 this.islandController.recalculatePositions(this.island);
@@ -138,6 +143,10 @@ export default class SelectedIslandUi {
             const inputPrecision = 1 / Math.pow(10, precision); 
             container.append($(`
                 <input name="${name}" class="form-control w-50" type="${type}" value="${value}" min="0" step="${inputPrecision}">
+            `));
+        } else if(type === 'textarea') {
+            container.append($(`
+                <textarea name="${name}" class="form-control w-50" rows="3">${value}</textarea>
             `));
         } else {
             container.append($(`<input name="${name}" class="form-control w-50" type="${type}" value="${value}">`));

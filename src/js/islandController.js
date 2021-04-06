@@ -1,11 +1,18 @@
 import Island from './models/island';
 
 export default class IslandController {
-    constructor(canvasController) {
-        this.canvasController = canvasController;
+    constructor(canvasController, uiController) {
         this.parentIslands = [];
-        // Set when constructing uiController
-        this.uiController = null;
+        this.uiController = uiController;
+        this.canvasController = canvasController;
+
+        // Resolve circular reference.
+        if(this.uiController !== undefined && this.uiController.islandController === undefined) {
+            this.uiController.islandController = this;
+        }
+        if(this.canvasController !== undefined && this.canvasController.islandController === undefined) {
+            this.canvasController.islandController = this;
+        }
     }
 
     addIsland(x, y) {

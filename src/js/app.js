@@ -8,5 +8,5 @@ import IslandController from './islandController';
 
 const canvasController = new CanvasController();
 const islandController = new IslandController(canvasController);
-const uiController = new UiController(islandController);
+const uiController = new UiController(islandController, canvasController);
 uiController.showDefault();
