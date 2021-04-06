@@ -21,6 +21,18 @@ export default class Relation {
         return {x, y};
     }
 
+    // 
+    getIslandArrowPosition(islandRadius) {
+        // 1 h * 1kts = 1 sea mile, and 1 sea mile should be 100px.
+        const distance = this._duration * this._speed * 100 - islandRadius;
+        const directionRad = this._direction * Math.PI / 180;
+        const dx = Math.sin(directionRad) * distance;
+        const dy = Math.cos(directionRad) * distance * -1;
+        const x = this._fromIsland.x + dx;
+        const y = this._fromIsland.y + dy;
+        return {x, y};
+    }
+
     set toIsland(toIsland) {
         this._toIsland = toIsland;
     }
