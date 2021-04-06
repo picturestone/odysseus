@@ -22,5 +22,6 @@ export default class CanvasController {
         islands.forEach(island => {
             island.render(this.$el);
         });
+        this.$el.drawLayers();
     }
 }
