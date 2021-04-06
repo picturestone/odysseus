@@ -7,6 +7,7 @@ export default class Island {
         this._childrenRelations = [];
         this._parentRelation = null;
         this._name = 'Neue Insel';
+        this._note = '';
         this._x = x;
         this._y = y;
     }
@@ -31,7 +32,7 @@ export default class Island {
         if(this._isSelected) {
             baseData.fillStyle = '#c33';
         }
-        
+
         this.renderArrows(canvas, islandRadius);
 
         canvas.drawArc(baseData);
@@ -130,6 +131,14 @@ export default class Island {
 
     set name(name) {
         this._name = name;
+    }
+
+    get note() {
+        return this._note;
+    }
+
+    set note(note) {
+        this._note = note;
     }
 
     get isSelected() {

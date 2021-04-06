@@ -7,16 +7,54 @@
   </head>
   <body>
     <div class="container h-100 d-flex flex-column align-items-stretch">
-      <h1 class="pt-5">Odysseus' Karte</h1>
+      <h1 class="pt-3">Odysseus' Karte</h1>
       <div class="row flex-grow-1">
         <div class="col-9 d-flex flex-column align-items-stretch">
           <h3>Karte</h3>
           <div class="flex-grow-1 js-o-map-container">
-            <canvas width="300" height="150" class="js-o-map"></canvas>
+            <canvas width="300" height="150" class="js-o-map border"></canvas>
           </div>
         </div>
         <div class="col-3 d-flex flex-column align-items-stretch">
           <h3>Einstellungen</h3>
+          
+          <div class="d-flex mb-3 align-items-stretch">
+            <div class="d-flex flex-column align-items-stretch justify-content-between me-3">
+              <!-- Reset zoom and translation -->
+              <div class="d-flex">
+                <button class="btn btn-outline-danger js-o-reset px-5">
+                  Reset
+                </button>
+              </div>
+              <!-- Zoom buttons -->
+              <div class="d-flex justify-content-between">
+                <button class="btn btn-outline-dark js-o-zoom-in">
+                  <i class="fas fa-search-plus fa-2x"></i>
+                </button>
+                <button class="btn btn-outline-dark js-o-zoom-out ms-2">
+                  <i class="fas fa-search-minus fa-2x"></i>
+                </button>
+              </div>
+            </div>
+            <!-- Translation buttons -->
+            <div class="d-flex align-items-end">
+              <button class="btn btn-outline-dark js-o-translate-left">
+                <i class="fas fa-chevron-left fa-2x"></i>
+              </button>
+              <div class="d-flex flex-column align-items-stretch">
+                <button class="btn btn-outline-dark js-o-translate-up">
+                  <i class="fas fa-chevron-up fa-2x"></i>
+                </button>
+                <button class="btn btn-outline-dark js-o-translate-down">
+                  <i class="fas fa-chevron-down fa-2x"></i>
+                </button>
+              </div>
+              <button class="btn btn-outline-dark js-o-translate-right">
+                <i class="fas fa-chevron-right fa-2x"></i>
+              </button>
+            </div>
+          </div>
+          <!-- Main UI elements -->
           <div class="flex-grow-1 o-ui js-o-ui">
             <!-- This ui is filled with JS -->
           </div>
