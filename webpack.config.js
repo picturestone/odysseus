@@ -2,6 +2,7 @@
  * Webpack main configuration file
  */
 
+const webpack = require("webpack");
 const path = require('path');
 const fs = require('fs');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -72,6 +73,10 @@ module.exports = {
     ],
   },
   plugins: [
+    new webpack.ProvidePlugin({
+      '$': 'jquery',
+      'jQuery': 'jquery',
+    }),
     new MiniCssExtractPlugin({
       filename: 'css/[name].css',
     }),
