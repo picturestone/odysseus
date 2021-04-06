@@ -17,11 +17,9 @@ export default class CanvasController {
     }
 
     render(islands) {
-        // Clear the whole canvas
-        this.$el.removeLayers(() => true);
+        this.$el.clearCanvas();
         islands.forEach(island => {
             island.render(this.$el);
         });
-        this.$el.drawLayers();
     }
 }
