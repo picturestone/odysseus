@@ -1,9 +1,15 @@
+import Relation from './relation';
+
 export default class Island {
+    /**
+     * @param {Relation} parentRelation
+     */
     constructor(islandController, x, y) {
-        this._x = x;
-        this._y = y;
         this._islandController = islandController;
         this._isSelected = false;
+        this._childrenRelations = [];
+        this._x = x;
+        this._y = y;
     }
 
     render(canvas) {
@@ -12,7 +18,7 @@ export default class Island {
             fillStyle: '#000',
             x: this._x,
             y: this._y,
-            radius: 30,
+            radius: 5,
             cursors: {
                 mouseover: 'pointer',
             },
@@ -28,12 +34,40 @@ export default class Island {
         canvas.drawArc(baseData);
     }
 
+    addChild() {
+        const child = new Island(this.islandController);
+        const relation = new Relation(this, child, 1, 1, 0);
+        this._childrenRelations.push(relation);
+        child.parentRelation(relation);
+    }
+
+    getIslandAndChildren() {
+        const children = [];
+
+        this._childrenRelations.forEach(relation => {
+            children.push(relation.toIsland.getIslandAndChildren());
+        });
+        
+        children.push(this);
+
+        return children;
+    }
+
+    set parentRelation(parentRelation) {
+        this._parentRelation = parentRelation;
+        const islandPos = parentRelation.getToIslandPosition();
+        this._x = islandPos.x;
+        this._y = islandPos.y;
+    }
+
     get x() {
         return this._x;
     }
 
     set x(x) {
-        this._x = x;
+        if (!this._parentRelation) {
+            this._x = x;
+        }
     }
 
     get y() {
@@ -41,7 +75,13 @@ export default class Island {
     }
 
     set y(y) {
-        this._y = y;
+        if (!this._parentRelation) {
+            this._y = y;
+        }
+    }
+
+    get isSelected() {
+        return this._isSelected;
     }
 
     /**
