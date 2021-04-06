@@ -15,7 +15,7 @@ export default class DefaultUi {
 
         this.$el.append($newIslandButton);
         $newIslandButton.on('click', () => {
-            this.islandController.addIsland(50, 50);
+            this.islandController.addIsland(200, 200);
         });
     }
 }
