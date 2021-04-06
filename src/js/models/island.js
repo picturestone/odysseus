@@ -6,6 +6,7 @@ export default class Island {
         this._isSelected = false;
         this._childrenRelations = [];
         this._parentRelation = null;
+        this._name = 'Neue Insel';
         this._x = x;
         this._y = y;
     }
@@ -92,13 +93,22 @@ export default class Island {
     getIslandAndChildren() {
         let children = [];
 
+        children.push(this);
+
         this._childrenRelations.forEach(relation => {
             children = children.concat(relation.toIsland.getIslandAndChildren());
         });
-        
-        children.push(this);
 
         return children;
+    }
+
+    // Recalculates the position depending on the parent island.
+    recalculatePosition() {
+        if (this._parentRelation) {
+            const islandPos = this._parentRelation.getToIslandPosition();
+            this._x = islandPos.x;
+            this._y = islandPos.y;
+        }
     }
 
     get parentRelation() {
@@ -107,9 +117,7 @@ export default class Island {
 
     set parentRelation(parentRelation) {
         this._parentRelation = parentRelation;
-        const islandPos = parentRelation.getToIslandPosition();
-        this._x = islandPos.x;
-        this._y = islandPos.y;
+        this.recalculatePosition();
     }
 
     get x() {
@@ -134,6 +142,14 @@ export default class Island {
 
     get islandController() {
         return this._islandController;
+    }
+
+    get name() {
+        return this._name;
+    }
+
+    set name(name) {
+        this._name = name;
     }
 
     get isSelected() {

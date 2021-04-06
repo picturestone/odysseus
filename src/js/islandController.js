@@ -61,7 +61,16 @@ export default class IslandController {
         this.canvasController.render(this.getIslands());
     }
 
-    // TODO Returns all islands
+    // Recalculates the position of this island and all children after relation to parent changed.
+    recalculatePositions(island) {
+        // Update positions of island and all sub islands
+        island.getIslandAndChildren().forEach(subIsland => {
+            subIsland.recalculatePosition();
+        });
+        // Rerender islands.
+        this.renderAllIslands();
+    }
+
     getIslands() {
         let islands = [];
 

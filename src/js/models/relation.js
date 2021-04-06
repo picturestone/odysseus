@@ -12,7 +12,7 @@ export default class Relation {
 
     getToIslandPosition() {
         // 1 h * 1kts = 1 sea mile, and 1 sea mile should be 100px.
-        const distance = this._duration * this._speed * 100;
+        const distance = this.distance;
         const directionRad = this._direction * Math.PI / 180;
         const dx = Math.sin(directionRad) * distance;
         const dy = Math.cos(directionRad) * distance * -1;
@@ -21,10 +21,10 @@ export default class Relation {
         return {x, y};
     }
 
-    // 
+    // Calculates position for the tip of the arrow by subtracting the radius of the island according to the angle from the x and y coordinats.
     getIslandArrowPosition(islandRadius) {
         // 1 h * 1kts = 1 sea mile, and 1 sea mile should be 100px.
-        const distance = this._duration * this._speed * 100 - islandRadius;
+        const distance = this.distance - islandRadius;
         const directionRad = this._direction * Math.PI / 180;
         const dx = Math.sin(directionRad) * distance;
         const dy = Math.cos(directionRad) * distance * -1;
@@ -71,5 +71,9 @@ export default class Relation {
 
     get direction() {
         return this._direction;
+    }
+
+    get distance() {
+        return this._duration * this._speed * 100;
     }
 }
