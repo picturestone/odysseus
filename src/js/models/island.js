@@ -101,6 +101,10 @@ export default class Island {
         this.recalculatePosition();
     }
 
+    get childrenRelations() {
+        return this._childrenRelations;
+    }
+
     get x() {
         return this._x;
     }
