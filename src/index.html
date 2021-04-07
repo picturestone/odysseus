@@ -32,14 +32,16 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="loadModalLabel">Laden</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close js-o-load-modal-close" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <p>Achtung! Laden löscht den aktuellen Stand!</p>
+            <p>Kopiere den gespeicherten Code in das nachfolgende Textfeld und klicke auf "Laden".</p>
+            <p><b>Achtung! Laden löscht den aktuellen Stand unwiderruflich!</b></p>
+            <textarea class="form-control js-o-load-area"></textarea>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
-            <button type="button" class="btn btn-danger">Laden</button>
+            <button type="button" class="btn btn-secondary js-o-load-modal-close">Abbrechen</button>
+            <button type="button" class="btn btn-danger js-o-load-button">Laden</button>
           </div>
         </div>
       </div>

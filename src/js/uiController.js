@@ -2,7 +2,7 @@ import DefaultUi from './uis/defaultUi';
 import SelectedIslandUi from './uis/selectedIslandUi';
 
 export default class UiController {
-    constructor(islandController, canvasController) {
+    constructor(islandController, canvasController, savestateController) {
         this.$el = $('.js-o-ui');
         this.$reset = $('.js-o-reset');
         this.$zoomIn = $('.js-o-zoom-in');
@@ -13,6 +13,7 @@ export default class UiController {
         this.$translateDown = $('.js-o-translate-down');
         this.canvasController = canvasController;
         this.islandController = islandController;
+        this.savestateController = savestateController;
 
         // Resolve circular reference.
         if(this.islandController !== undefined && this.islandController.uiController === undefined) {
@@ -60,6 +61,10 @@ export default class UiController {
                 this.canvasController.translateDown();
                 break;
         }
+    }
+
+    showLoadModal() {
+        this.savestateController.showLoadModal();
     }
 
     showDefault() {

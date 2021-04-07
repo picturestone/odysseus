@@ -1,5 +1,8 @@
+import * as bootstrap from 'bootstrap';
+
 export default class DefaultUi {
     constructor(uiController) {
+        this.uiController = uiController;
         this.$el = uiController.$el;
         this.islandController = uiController.islandController;
     }
@@ -34,10 +37,14 @@ export default class DefaultUi {
             </button>
         `));
 
-        $saveLoadContainer.append($(`
-            <button type="button" class="btn btn-secondary ms-3" data-bs-toggle="modal" data-bs-target="#loadModal">
+        const $loadButton = $(`
+            <button type="button" class="btn btn-secondary ms-3">
                 Laden
             </button>
-        `));
+        `);
+        $saveLoadContainer.append($loadButton);
+        $loadButton.on('click', () => {
+            this.uiController.showLoadModal();
+        });
     }
 }

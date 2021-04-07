@@ -117,7 +117,6 @@ export default class SelectedIslandUi {
                 }, {});
                 this.island.name = data.name;
                 this.island.note = data.note;
-                console.log(data);
                 this.island.x = convertMilesToCoordinates(data.x);
                 this.island.y = convertMilesToCoordinates(data.y);
                 this.islandController.recalculatePositions(this.island);
