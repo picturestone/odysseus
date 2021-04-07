@@ -1,3 +1,9 @@
+# Important commands:
+
+npm run watch - watch for changes
+
+npm run dev - start dev server
+
 # Webpack 5 Boilerplate Template
 
 ![Maintenance](https://img.shields.io/maintenance/yes/2021?logo=github)

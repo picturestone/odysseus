@@ -6,6 +6,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
+    <!-- Save modal -->
+    <div class="modal fade" id="saveModal" tabindex="-1" aria-labelledby="saveModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="saveModalLabel">Speichern</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>Speichere folgenden Code auf deinem PC ab. Beim Laden kann der Code wieder eingefügt werden und der aktuelle Stand wird wieder hergestellt.</p>
+            <p>Sobald in das Code-Feld geklickt wird kann mit strg+a alles markiert werden. Dann mit strg+c kopieren und irgendwo auf dem PC abspeichern (z.B. in einer Word-Datei).</p>
+            <textarea class="form-control js-o-save-area"></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Load modal -->
+    <div class="modal fade" id="loadModal" tabindex="-1" aria-labelledby="loadModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="loadModalLabel">Laden</h5>
+            <button type="button" class="btn-close js-o-load-modal-close" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>Kopiere den gespeicherten Code in das nachfolgende Textfeld und klicke auf "Laden".</p>
+            <p><b>Achtung! Laden löscht den aktuellen Stand unwiderruflich!</b></p>
+            <textarea class="form-control js-o-load-area"></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary js-o-load-modal-close">Abbrechen</button>
+            <button type="button" class="btn btn-danger js-o-load-button">Laden</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main page -->
     <div class="container h-100 d-flex flex-column align-items-stretch">
       <h1 class="pt-3">Odysseus' Karte</h1>
       <div class="row flex-grow-1">
