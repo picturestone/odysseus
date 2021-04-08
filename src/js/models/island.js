@@ -7,14 +7,17 @@ export default class Island {
         this._childrenRelations = [];
         this._parentRelation = null;
         this._name = 'Neue Insel';
+        this._note = '';
         this._x = x;
         this._y = y;
     }
 
     render(canvas) {
         const islandRadius = 6;
+        const fontSize = 20;
 
-        const baseData = {
+        // Base data for island dot.
+        const baseIslandData = {
             layer: true,
             fillStyle: '#000',
             x: this._x,
@@ -26,15 +29,40 @@ export default class Island {
             click: () => {
                 this._islandController.selectIsland(this);
             }
+        };
+
+        // Base data for island name.
+        const baseTextData = {
+            layer: true,
+            fillStyle: '#000',
+            fontSize: fontSize,
+            fontFamily: 'Trebuchet MS, sans-serif',
+            text: this._name,
+            x: this.x,
+            y: (this.y - fontSize),
+            cursors: {
+                mouseover: 'pointer',
+            },
+            click: () => {
+                this._islandController.selectIsland(this);
+            }
+        };
+
+        // Special styling for selected island.
+        if(this._isSelected) {
+            baseIslandData.fillStyle = '#c33';
+            baseTextData.fillStyle = '#c33';
+        
         }
 
-        if(this._isSelected) {
-            baseData.fillStyle = '#c33';
-        }
-        
+        // Render arrows between parent island and this island.
         this.renderArrows(canvas, islandRadius);
 
-        canvas.drawArc(baseData);
+        // Draw the island dot.
+        canvas.drawArc(baseIslandData);
+
+        // Draw the island name.
+        canvas.drawText(baseTextData);
     }
 
     renderArrows(canvas, islandRadius) {
@@ -68,6 +96,15 @@ export default class Island {
         const relation = new Relation(this, child, speed, duration, direction);
         this._childrenRelations.push(relation);
         child.parentRelation = relation;
+        return child;
+    }
+
+    // Deletes this island
+    delete() {
+        if (this._parentRelation) {
+            const indexOfRelationAtParent = this._parentRelation.fromIsland.childrenRelations.indexOf(this._parentRelation);
+            this._parentRelation.fromIsland.childrenRelations.splice(indexOfRelationAtParent, 1);
+        }
     }
 
     getIslandAndChildren() {
@@ -100,6 +137,10 @@ export default class Island {
         this.recalculatePosition();
     }
 
+    get childrenRelations() {
+        return this._childrenRelations;
+    }
+
     get x() {
         return this._x;
     }
@@ -130,6 +171,14 @@ export default class Island {
 
     set name(name) {
         this._name = name;
+    }
+
+    get note() {
+        return this._note;
+    }
+
+    set note(note) {
+        this._note = note;
     }
 
     get isSelected() {

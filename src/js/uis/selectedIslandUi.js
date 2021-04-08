@@ -31,6 +31,43 @@ export default class SelectedIslandUi {
             <h4 class="pe-5">${this.island.name}</h4>
         `));
 
+        // Add container for deleting island
+        const $deleteContainer = $(`
+            <div class="d-flex align-items-center justify-content-between mb-3"></div>
+        `);
+        $container.append($deleteContainer);
+
+        // Add delete icon
+        const $deleteButton = $(`
+            <button type="button" class="btn btn-danger">
+                <i class="fas fa-trash fa-lg"></i>
+            </button>
+        `);
+        $deleteContainer.append($deleteButton);
+
+        // Add confirmation for deleting
+        const $deleteConfirmContainer = $(`
+            <div class="d-flex align-items-center invisible"></div>
+        `);
+        $deleteContainer.append($deleteConfirmContainer);
+
+        // Show delete confirmation when clicking delete icon
+        $deleteContainer.on('click', () => {
+            $deleteConfirmContainer.removeClass('invisible');
+        });
+
+        // Add confirmation
+        $deleteConfirmContainer.append('<span>Sicher?</span>');
+        const $deleteConfirmButton = $(`
+            <button type="button" class="btn btn-danger ms-3">
+                Ja, löschen!
+            </button>
+        `);
+        $deleteConfirmContainer.append($deleteConfirmButton);
+        $deleteConfirmButton.on('click', () => {
+            this.islandController.deleteSelectedIsland();
+        });
+        
         // Add current state of island
         const xString = `${convertCoordinatesToMiles(this.island.x)} SM`;
         $container.append(this.getStaticProperty('x', xString));
@@ -39,7 +76,7 @@ export default class SelectedIslandUi {
 
         // Add button to add islands
         const $newIslandButton = $(`
-            <button type="button" class="btn btn-primary">
+            <button type="button" class="btn btn-primary mt-3">
                 Neue abhängige Insel
             </button>
         `);
@@ -52,7 +89,7 @@ export default class SelectedIslandUi {
         if (this.island.parentRelation) {
             // Add some headlines
             $container.append($(`<hr />`));
-            $container.append($(`<h4>Erreichbar von <b>${this.island.parentRelation.fromIsland.name}</b> aus durch: </h4>`));
+            $container.append($(`<h6>Erreichbar von <b>${this.island.parentRelation.fromIsland.name}</b> aus durch: </h6>`));
 
             // Add a container for the form
             const $formContainer = $(`<form class="d-flex flex-column align-items-stretch"></form>`);
@@ -60,6 +97,7 @@ export default class SelectedIslandUi {
 
             // Add form fields
             $formContainer.append(this.getDynamicProperty('Name', 'name', this.island.name, 'text'));
+            $formContainer.append(this.getDynamicProperty('Notiz', 'note', this.island.note, 'textarea'));
             $formContainer.append(this.getDynamicProperty('Speed [ktn]', 'speed', this.island.parentRelation.speed, 'number', 1));
             $formContainer.append(this.getDynamicProperty('Dauer [Stunden]', 'duration', this.island.parentRelation.duration, 'number', 1));
             $formContainer.append(this.getDynamicProperty('Richtung [Grad]', 'direction', this.island.parentRelation.direction, 'number', 0));
@@ -69,7 +107,7 @@ export default class SelectedIslandUi {
 
             // Add submit button
             $formContainer.append($(`
-                <button type="submit" class="btn btn-success">Speichern</button>
+                <button type="submit" class="btn btn-success mt-3">Speichern</button>
             `));
 
             // Trigger recalculations of island and all children on submission, as well as UI.
@@ -80,6 +118,7 @@ export default class SelectedIslandUi {
                     return obj;
                 }, {});
                 this.island.name = data.name;
+                this.island.note = data.note;
                 this.island.parentRelation.speed = getFloatFromString(data.speed, 1);
                 this.island.parentRelation.duration = getFloatFromString(data.duration, 1);
                 this.island.parentRelation.direction = getFloatFromString(data.direction, 0);
@@ -89,7 +128,7 @@ export default class SelectedIslandUi {
         } else {
             // Add some headlines
             $container.append($(`<hr />`));
-            $container.append($(`<p>Diese Insel hängt von keiner anderen ab.</p>`));
+            $container.append($(`<h6>Diese Insel hängt von keiner anderen ab.</h6>`));
 
             // Add a container for the form
             const $formContainer = $(`<form class="d-flex flex-column align-items-stretch"></form>`);
@@ -97,6 +136,7 @@ export default class SelectedIslandUi {
 
             // Add form fields
             $formContainer.append(this.getDynamicProperty('Name', 'name', this.island.name, 'text'));
+            $formContainer.append(this.getDynamicProperty('Notiz', 'note', this.island.note, 'textarea'));
             $formContainer.append(this.getDynamicProperty('x', 'x', convertCoordinatesToMiles(this.island.x)));
             $formContainer.append(this.getDynamicProperty('y', 'y', convertCoordinatesToMiles(this.island.y)));
 
@@ -113,6 +153,7 @@ export default class SelectedIslandUi {
                     return obj;
                 }, {});
                 this.island.name = data.name;
+                this.island.note = data.note;
                 this.island.x = convertMilesToCoordinates(data.x);
                 this.island.y = convertMilesToCoordinates(data.y);
                 this.islandController.recalculatePositions(this.island);
@@ -124,8 +165,8 @@ export default class SelectedIslandUi {
     getStaticProperty(name, value) {
         return $(`
             <div class="d-flex justify-content-between">
-                <p>${name}</p>
-                <p>${value}</p>
+                <span>${name}</span>
+                <span>${value}</span>
             </div>
         `);
     }
@@ -138,6 +179,10 @@ export default class SelectedIslandUi {
             const inputPrecision = 1 / Math.pow(10, precision); 
             container.append($(`
                 <input name="${name}" class="form-control w-50" type="${type}" value="${value}" min="0" step="${inputPrecision}">
+            `));
+        } else if(type === 'textarea') {
+            container.append($(`
+                <textarea name="${name}" class="form-control w-50" rows="2">${value}</textarea>
             `));
         } else {
             container.append($(`<input name="${name}" class="form-control w-50" type="${type}" value="${value}">`));
