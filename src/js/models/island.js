@@ -14,8 +14,10 @@ export default class Island {
 
     render(canvas) {
         const islandRadius = 6;
+        const fontSize = 20;
 
-        const baseData = {
+        // Base data for island dot.
+        const baseIslandData = {
             layer: true,
             fillStyle: '#000',
             x: this._x,
@@ -27,15 +29,39 @@ export default class Island {
             click: () => {
                 this._islandController.selectIsland(this);
             }
-        }
+        };
 
+        // Base data for island name.
+        const baseTextData = {
+            layer: true,
+            fillStyle: '#000',
+            fontSize: fontSize,
+            fontFamily: 'Trebuchet MS, sans-serif',
+            text: this._name,
+            x: this.x,
+            y: (this.y - fontSize),
+            cursors: {
+                mouseover: 'pointer',
+            },
+            click: () => {
+                this._islandController.selectIsland(this);
+            }
+        };
+
+        // Special styling for selected island.
         if(this._isSelected) {
-            baseData.fillStyle = '#c33';
+            baseIslandData.fillStyle = '#c33';
+            baseTextData.fillStyle = '#c33';
         }
 
+        // Render arrows between parent island and this island.
         this.renderArrows(canvas, islandRadius);
 
-        canvas.drawArc(baseData);
+        // Draw the island dot.
+        canvas.drawArc(baseIslandData);
+
+        // Draw the island name.
+        canvas.drawText(baseTextData);
     }
 
     renderArrows(canvas, islandRadius) {
