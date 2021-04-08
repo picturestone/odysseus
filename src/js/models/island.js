@@ -52,6 +52,7 @@ export default class Island {
         if(this._isSelected) {
             baseIslandData.fillStyle = '#c33';
             baseTextData.fillStyle = '#c33';
+        
         }
 
         // Render arrows between parent island and this island.
