@@ -12,6 +12,7 @@ export default class CanvasController {
         }
 
         this.setCanvasHeightToParent();
+        setTimeout(() => { this.setCanvasHeightToParent() }, 100);
         this.bindListeners();
     }
 

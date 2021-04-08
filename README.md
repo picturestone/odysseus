@@ -1,235 +1,130 @@
-# Important commands:
+# Odysseus' Map
 
-npm run watch - watch for changes
+This is a tool created to draw islands depending on one another on a map. It is made to make it easier to follow odysseus path along islands when given simple directions like "He traveled from island A 3 days to the east and got to island B. From there on, he traveled to island C in 8 days to the south". Many more islands depending on previous ones could be given further in the text.
 
-npm run dev - start dev server
+Knowing roughly how the islands are placed now, they might be drawn on paper. The problem is that if the distance or direction from island A to island B needs to be changed to better match a description from another source or to try to fit the drawn island group onto a real island group on a map, all islands following island B need to be redrawn too since they depend on island B in one way or another.
 
-# Webpack 5 Boilerplate Template
+This tool does the redrawing of islands further down the dependency-chain for you.
 
-![Maintenance](https://img.shields.io/maintenance/yes/2021?logo=github)
-![webpack-current](https://img.shields.io/badge/webpack-v5.27.2-green?logo=webpack)
-![node-current (scoped)](https://img.shields.io/node/v/@weareathlon/frontend-webpack-boilerplate)
-[![Build Status](https://api.travis-ci.org/weareathlon/frontend-webpack-boilerplate.svg?branch=master)](https://travis-ci.org/weareathlon/frontend-webpack-boilerplate)
-[![GitHub Issues](https://img.shields.io/github/issues-raw/WeAreAthlon/frontend-webpack-boilerplate)](https://github.com/WeAreAthlon/frontend-webpack-boilerplate/issues)
-[![Known Vulnerabilities](https://snyk.io/test/github/WeAreAthlon/frontend-webpack-boilerplate/badge.svg?targetFile=package.json)](https://snyk.io/test/github/WeAreAthlon/frontend-webpack-boilerplate?targetFile=package.json)
-[![devDependency Status](https://david-dm.org/WeAreAthlon/frontend-webpack-boilerplate/dev-status.svg)](https://david-dm.org/WeAreAthlon/frontend-webpack-boilerplate?type=dev)
-[![npm](https://img.shields.io/npm/dm/@weareathlon/frontend-webpack-boilerplate)](https://www.npmjs.com/package/@weareathlon/frontend-webpack-boilerplate)
-[![GitHub License](https://img.shields.io/github/license/WeAreAthlon/frontend-webpack-boilerplate)](https://github.com/WeAreAthlon/frontend-webpack-boilerplate/blob/master/LICENSE)
+## Installation for users
 
-![Front-end Webpack Boilerplate](https://repository-images.githubusercontent.com/96102257/4be7b600-61f1-11e9-9ebf-67b17d5ba125)
-
-## Demo
-
-* [Demo page demonstrating building - SASS, JavaScript, Images, Fonts, HTML](https://weareathlon.github.io/frontend-webpack-boilerplate/)
-
-Table of Contents
-=================
-
-   * [Webpack 5 Boilerplate Template](#webpack-5-boilerplate-template)
-      * [Demo](#demo)
-      * [Features](#features)
-      * [Requirements](#requirements)
-   * [Setup](#setup)
-      * [Installation](#installation)
-      * [Define Package Metadata](#define-package-metadata)
-   * [Configuration](#configuration)
-      * [Environment Configuration](#environment-configuration)
-      * [Additional webpack configuration](#additional-webpack-configuration)
-   * [Development](#development)
-      * [Assets Source](#assets-source)
-      * [Build Assets](#build-assets)
-         * [One time build assets for development](#one-time-build-assets-for-development)
-         * [Build assets and enable source files watcher](#build-assets-and-enable-source-files-watcher)
-         * [Start a development server - reloading automatically after each file change.](#start-a-development-server---reloading-automatically-after-each-file-change)
-   * [Production](#production)
-      * [Build Assets](#build-assets-1)
-      * [Get Built Assets](#get-built-assets)
-   * [Run Code Style Linters](#run-code-style-linters)
-      * [SASS](#sass)
-      * [JavaScript](#javascript)
-   * [Additional Tools](#additional-tools)
-      * [Run Assets Bundle Analyzer](#run-assets-bundle-analyzer)
-      * [Continuous Integration](#continuous-integration)
+1. Download the Build.zip of the most recent version from the (releases)[https://github.com/picturestone/odysseus/releases].
+2. Unpack the Build.zip
+3. Open the `index.html` from the unpacked zip
 
 ## Features
 
-* **Simple setup** instructions
-  * Start development of a project right away with **simple**, **configured**, **linter enabled**, **browser synced** asset files.
-* Configuration per **environment**
-  * `development` - [`sourcemaps`](https://webpack.js.org/configuration/devtool/), [`browser synced developmentment server`](https://webpack.js.org/configuration/dev-server/)
-  * `production` - [`minification`](https://webpack.js.org/plugins/terser-webpack-plugin/), [`sourcemaps`](https://webpack.js.org/configuration/devtool/)
-* Configurable **browsers versions support**. It uses [`browserslist`](https://github.com/browserslist/browserslist#full-list) - just specify the browsers you want to support in the `package.json` file for `browserslist`:
+The UI consinsts of a map on the left hand side and controls section on the right hand side. The map shows the islands which depend on each other in the correct positions.
 
-```js
-"browserslist": [
-    "last 2 versions",
-    "> 5%"
-]
-```
-* The built CSS / JavaScript files will respect the **configured supported browser versions** using the following tools:
-  * [`autoprefixer`](https://github.com/postcss/autoprefixer) - automatically adds vendor prefixes to CSS rules
-  * [`babel-preset-env`](https://babeljs.io/docs/en/babel-preset-env) - smart preset that allows you to use the latest JavaScript without needing to micromanage which syntax transforms (*and optionally, browser polyfills*) are needed by your target environment(s).
-* Demo project files to be used as a reference and **example demo** building of:
-  * *JavaScript*
-  * *SASS / PostCSS*
-  * *HTML* templates
-  * *Images* (*CSS backgrounds and image tags*)
-  * *Fonts*
-* Support for **assets optimization** for production environment with ability to configure:
-  * **Code Minification** of *JavaScript* and *CSS* processed files.
-  * **Optimize Assets Loading** - inline and embed **images** / **fonts** files having file size below a *configurable* threshold value.
-  * **Images Optimisation** - optimize `jpeg`, `jpg`, `png`, `gif`, `svg` filesize and loading type via [`imagemin`](https://github.com/imagemin/imagemin). Plugin and Loader for webpack to optimize (*compress*) all images using `imagemin`. Do not worry about size of images, now they are always optimized/compressed.
-* Support for **source code syntax style and formatting linters** that analyze source code to flag any programming errors, bugs, stylistic errors or suspicious constructs:
-  * **SASS/PostCSS syntax cheker** - you can change or add additional rules in `.sasslintrc` file. Configuration options can be found on [`sass-lint`](https://github.com/sasstools/sass-lint/blob/master/lib/config/sass-lint.yml) documentation.
-  * **JavaScript syntax checker** - following the `airbnb` style, you can review and configure the rules in `.eslintrc` file. Configuration options can be found on [`eslint`](https://eslint.org/docs/user-guide/configuring) documentation.
-* Latest [Webpack 5](https://github.com/webpack/webpack) - *JavaScript* module bundler.
-* Latest [SASS/PostCSS](https://github.com/sass/sass) compiler based on Dart `sass`.
-* Latest [Babel 7](https://github.com/babel/babel) (`@babel/core`) - JavaScript compiler - _Use next generation JavaScript, today._
-* Integration with [Travis CI](https://travis-ci.org/)
-  * [Demo deployment available to GitHub pages](https://weareathlon.github.io/frontend-webpack-boilerplate/)
-* Configured and ready to use **Webpack Dev Server** plugin for faster local development - [`webpack-dev-server`](https://webpack.js.org/configuration/dev-server/)
-* Integration with [Webpack Bundle Analyzer](https://www.npmjs.com/package/webpack-bundle-analyzer) - _Visualize size of webpack output files with an interactive zoomable treemap._
+### The map
 
-## Requirements
+The map shows the islands. You can select an island by clicking on the island or the name of the island. This opens the island editing UI in the controls section. The selected island and its name are shown in red. Islands which are currently not selected together with their names are shown in black. 
 
-* `node` : `^10 || ^12 || >=14`
-* `npm`
+### Navigate on the map
 
-# Setup
+The controls on the very top of the controls section allow to navigate the map. For this purpose six buttons are placed:
 
-## Installation
+* A magnifying glass with a + symbol inside: Used to zoom in on the map (click on the button or press `+` on the keyboard)
+* A magnifying glass with a - symbol inside: Used to zoom out off the map (click on the button or by press `-` on the keyboard)
+* A chevron pointing to the left: Used to move the map to the left (click on the button or press the left arrow key on the keyboard)
+* A chevron pointing to the right: Used to move the map to the right (click on the button or press the right arrow key on the keyboard)
+* A chevron pointing up: Used to move the map up (click on the button or press the up arrow key on the keyboard)
+* A chevron pointing down: Used to move the map down (click on the button or press the down arrow key on the keyboard)
 
-1. Choose and download the latest template release from [List of Releases](https://github.com/WeAreAthlon/frontend-webpack-boilerplate/releases).
-2. Extract the release archive to a new directory, rename it to your project name and browse the directory.
-3. Install all dependencies using `npm` *clean install* command. 
+In case you are lost you can press the `reset` button. This resets the zoom and position on the map to the default.
 
-```sh 
-$ npm ci
-```
+The controls to navigate on the map are always shown.
 
-> More on the clean install npm command can be read here [`npm ci`](https://docs.npmjs.com/cli/ci.html)
+### Default UI
 
-> You can still use `npm install` in cases the `npm ci` raises system error due to specific platform incompatibilities.
+The default UI is shown when no island is selected. From here you can do the following:
 
-## Define Package Metadata
+* Add a new  island that does not depend on any other island position by pressing the "Neue unabhängige Insel" button. This adds a new independent island and selects it instantly.
+* Save the current state of the map by pressing the `Speichern` button. This opens the save dialog which is explained in more detail in a separate section.
+* Load a previous state of the map by pressing the `Laden` button. This opens the load dialog which is explained in more detail in a separate section.
 
-* Amend `package.json` file and optionally specify:
-  * `name` - Name of your project. A name can be optionally prefixed by a scope, e.g. `@myorg/mypackage`.
-  * `version` - Specify and maintain a version number indicator for your project code.
-  * `author` - Your organisation or just yourself. You can also specify [`contributors`](https://docs.npmjs.com/files/package.json#people-fields-author-contributors).
-  * `description` - Short description of your project.
-  * `keywords` - Put keywords in it. It’s an array of strings.
-  * `repository` - Specify the place where your code lives.
-  * `license` - Announce your code license, figure out the license from [Choose an Open Source License](https://choosealicense.com) .
-  * `browserslist` - Specify the supported browsers versions - you can refer to [full list](https://github.com/browserslist/browserslist#full-list) of availalbe options.
+### Selected island UI
 
-# Configuration
+THe selected island UI is shown when an island is selected. Here you can see the following:
 
-## Environment Configuration
+* The name of the island.
+* The `x` button to get back to the default UI.
+* The trashcan button to delete the currently selected island. Clicking it shows the `Ja, löschen!` button right beside the trashcan button. Only when clicking this confirmation button, the island is deleted. This cannot be undone.
+* The x position on the map.
+* The y position on the map.
+* The `Neue abhängige Insel` button to add a new island of which the position should depend on the position of the currently selected island. The dependency is shown by an arrow going from the "parent" (the one selected) to the "child" (the new island) island. When clicking the button, the new island is also automatically selected.
 
-* Edit the [`configuration/environment.js`](configuration/environment.js) if you want to specify:
-  * **`server`**: configure development server, specify `host`, `port`. Refer to the full development server configuration options for [`webpack-dev-server`](https://webpack.js.org/configuration/dev-server/).
-  * **`limits`**: configure file size thresholds for assets optimizations.
-    * Image/Font files size in bytes. Below this value the image file will be served as Data URL (_inline base64_).
-  * **`paths`**: `src` or `dist` directories names and file system location.
+Depending on if position of the currently selected island depends on the position of another island, or if it is an independent island instead, different controlls are shown.
 
-## Additional `webpack` configuration
+#### Controls for independent islands
 
-You can additionally configure `webpack` for specific environment:
-* `development` - [`configuration/webpack.dev.config.js`](configuration/webpack.dev.config.js)
-* `production` - [`configuration/webpack.prod.config.js`](configuration/webpack.prod.config.js)
-  * Note that if you prefer to build and deploy [`sourcemap`](https://webpack.js.org/configuration/devtool/#production) files:
-> You should configure your server to disallow access to the Source Map file for normal users!
+If the position of the currently selected island does not depend on the position of another island the following controlls are shown:
 
-# Development
+* A sentence informing you that this island does not depend on any other island.
+* An input `Name` to change the name of the island.
+* An input `Notiz` to change or add a note regarding the island.
+* An input to change the x position the island has on the map.
+* An input to change the y position the island has on the map.
+* The `Speichern` button to save the values currently in the inputs and re-render the map.
 
-## Assets Source
+#### Controls for depending islands
 
-* **SASS/PostCSS** files are located under `src/scss/`
-* **JavaScript** files with support of latest ECMAScript _ES6 / ECMAScript 2016(ES7)/ etc_ files are located under `src/js/`
-* **Image** files are located under `src/images/`
-* **Font** files are located under `src/fonts/`
-* **HTML** files are located under `src/templates/`
-  * It will **automatically** build **all HTML files** placed under `src/templates/` directory, no need to manually configure each template anymore!
+If the position of the currently selected island does depend on the position of another island the following controlls are shown:
 
-## Build Assets
+* A sentence informing you which island the position of the currently selected one is depending on (called "parent island" for convenience). 
+* An input `Name` to change the name of the island.
+* An input `Notiz` to change or add a note regarding the island.
+* An input `Speed [ktn]` to change the speed (in knots) at which Odysseus would have traveled when starting his journey from the parent island.
+* An input `Dauer [Stunden]` to change the time (in hours) which Odysseus would have spent travelling on his journey starting from the parent island.
+* An input `Richtung [Grad]` to change the direction (in degrees) which Odysseus would gone in on his journey starting from the parent island (0 is north).
+* An info text `Resultierende Distanz:` to inform you about the distance of the journey depending on the current settings (in nautical miles);
+* The `Speichern` button to save the values currently in the inputs and re-render the map.
 
-### One time build assets for development
+### Saving
 
-```sh
-$ npm run build
-```
+To save the current state of the map, press the `Speichern` button in the default UI. This brings up the save dialog. Copy the generated code and save it on your local machine, for example in a text file. 
 
-### Build assets and enable source files watcher
+Clicking the `x` button on the top right of the save dialog or the `Schließen` button closes the dialog.
 
-```sh
-$ npm run watch
-```
+### Loading
 
-This command is suitable if you develop with external web server.
+To load a state again, press the `Laden` button in the default UI. This brings up the load dialog. Paste a generated code which you saved on your local machine and paste it into the input. Clicking the `Laden` button loads the state from the code and closes the dialog. Notice that this overwrites the current state. This cannot be undone.
 
-> **Note:** File watching does not work with *NFS* (*Windows*) and virtual machines under *VirtualBox*. Extend the configuration in such cases by:
+Clicking the `x` button on the top right of the save dialog or the `Schließen` button closes the dialog.
 
-```js
-module.exports = {
-  //...
-  watchOptions: {
-    poll: 1000 // Check for changes every second
-  }
-};
-```
+## Limitations
 
-### Start a development server - reloading automatically after each file change.
+One big limitation is that the position of one island can only depend on the position of at most one other island. There is currently no way to make the position of one island depend on multiple other islands. The reason for this is that it is much more complicated to implement.
 
-```sh
-$ npm run dev
-```
+## For Devs
 
-# Production 
+### Important commands:
 
-## Build Assets
+* `npm run watch` - watch for changes
+* `npm run dev` - start dev server
+* `npm run build` - build
+* `npm run production` - build for production
 
-Optimize assets for production by:
+### Naming scheme for releases:
 
-```sh
-$ npm run production
-```
+Use the following greek islands naming scheme for releases:
 
-## Get Built Assets
-
-* _CSS_ files are located under `/dist/css/`
-* _JavaScript_ files with support of _ES6 / ECMAScript 2016(ES7)_ files are located under `/dist/js/`
-* _Images_ are located under `/dist/images/`
-  * Images part of the _design_ (_usually referenced in the CSS_) are located under `/dist/images/design/`
-  * Images part of the _content_ (_usually referenced via `<img>` tags_) are located under `/dist/images/content/`
-* _Fonts_ are located under `/dist/fonts/`
-* _HTML_ files are located under `/dist/`
-
-# Run Code Style Linters
-
-## SASS
-
-```sh
-$ npm run lint:sass
-```
-## JavaScript
-
-```sh
-$ npm run lint:js
-```
-
-# Additional Tools
-
-## Run Assets Bundle Analyzer
-
-```sh
-$ npm run stats
-```
-
-> This will open the visualisaion on the default configuraiton URL `localhost:8888`, you can change this URL or port following the [package](https://github.com/webpack-contrib/webpack-bundle-analyzer#options-for-cli) documentation.
-
-## Continuous Integration
-
-This boilerplate template contains integration with [Travis CI](https://travis-ci.org/). The build system runs all linting scripts and deploys production optimized pages to _GitHub_ pages upon push to the `master` branch. However, note that this deployment flow only works for _Project Pages_, as User and Organization pages [only support the master branch flow](https://help.github.com/articles/user-organization-and-project-pages/).
-
-For more information on how to set up alternative deployment processes, check out the [Travis CI documentation on deployment](https://docs.travis-ci.com/user/deployment). The service can deploy to dozens of cloud providers, including Heroku, AWS, and Firebase.
+* Agistri
+* Corfu
+* Dokos
+* Euboea
+* Fragos
+* Gyaros
+* Hydra
+* Ithaca
+* Kefalonia
+* Lefkada
+* Mykonos
+* Naxos
+* Oinousses
+* Paros
+* Rhodes
+* Serifos
+* Thassos
+* Vryonisi
+* Zakynthos
