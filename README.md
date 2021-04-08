@@ -6,6 +6,12 @@ Knowing roughly how the islands are placed now, they might be drawn on paper. Th
 
 This tool does the redrawing of islands further down the dependency-chain for you.
 
+## Installation for users
+
+1. Download the Build.zip of the most recent version from the (releases)[https://github.com/picturestone/odysseus/releases].
+2. Unpack the Build.zip
+3. Open the `index.html` from the unpacked zip
+
 ## Features
 
 The UI consinsts of a map on the left hand side and controls section on the right hand side. The map shows the islands which depend on each other in the correct positions.
