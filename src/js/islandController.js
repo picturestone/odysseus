@@ -16,14 +16,17 @@ export default class IslandController {
     }
 
     addIsland(x, y) {
-        this.parentIslands.push(new Island(this, x, y));
+        const newIsland = new Island(this, x, y);
+        this.parentIslands.push(newIsland);
+        this.selectIsland(newIsland);
         this.renderAllIslands();
     }
 
     addRelatedIsland(speed, duration, direction) {
         const selectedIsland = this.getSelectedIsland();
         if (selectedIsland) {
-            this.getSelectedIsland().addChildIsland(speed, duration, direction);
+            const newIsland = this.getSelectedIsland().addChildIsland(speed, duration, direction);
+            this.selectIsland(newIsland);
             this.renderAllIslands();
         }
     }
@@ -47,6 +50,24 @@ export default class IslandController {
         this.deselectIsland(false);
         island.isSelected = true;
         this.uiController.showSelectedIsland(island);
+        // Rerender islands.
+        this.renderAllIslands();
+    }
+
+    deleteSelectedIsland() {
+        // Show default ui.
+        this.uiController.showDefault();
+
+        // If selected island is a parent island, remove it from the list of parent islands.
+        const selectedIsland = this.getSelectedIsland();
+        const positionInParent = this.parentIslands.indexOf(selectedIsland);
+        if (-1 < positionInParent) {
+            this.parentIslands.splice(positionInParent, 1);
+        }
+
+        // Remove references in island.
+        selectedIsland.delete();
+
         // Rerender islands.
         this.renderAllIslands();
     }

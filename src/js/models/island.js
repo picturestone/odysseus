@@ -69,6 +69,15 @@ export default class Island {
         const relation = new Relation(this, child, speed, duration, direction);
         this._childrenRelations.push(relation);
         child.parentRelation = relation;
+        return child;
+    }
+
+    // Deletes this island
+    delete() {
+        if (this._parentRelation) {
+            const indexOfRelationAtParent = this._parentRelation.fromIsland.childrenRelations.indexOf(this._parentRelation);
+            this._parentRelation.fromIsland.childrenRelations.splice(indexOfRelationAtParent, 1);
+        }
     }
 
     getIslandAndChildren() {

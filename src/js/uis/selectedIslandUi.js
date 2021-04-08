@@ -31,6 +31,43 @@ export default class SelectedIslandUi {
             <h4 class="pe-5">${this.island.name}</h4>
         `));
 
+        // Add container for deleting island
+        const $deleteContainer = $(`
+            <div class="d-flex align-items-center justify-content-between mb-3"></div>
+        `);
+        $container.append($deleteContainer);
+
+        // Add delete icon
+        const $deleteButton = $(`
+            <button type="button" class="btn btn-danger">
+                <i class="fas fa-trash fa-lg"></i>
+            </button>
+        `);
+        $deleteContainer.append($deleteButton);
+
+        // Add confirmation for deleting
+        const $deleteConfirmContainer = $(`
+            <div class="d-flex align-items-center invisible"></div>
+        `);
+        $deleteContainer.append($deleteConfirmContainer);
+
+        // Show delete confirmation when clicking delete icon
+        $deleteContainer.on('click', () => {
+            $deleteConfirmContainer.removeClass('invisible');
+        });
+
+        // Add confirmation
+        $deleteConfirmContainer.append('<span>Sicher?</span>');
+        const $deleteConfirmButton = $(`
+            <button type="button" class="btn btn-danger ms-3">
+                Ja, löschen!
+            </button>
+        `);
+        $deleteConfirmContainer.append($deleteConfirmButton);
+        $deleteConfirmButton.on('click', () => {
+            this.islandController.deleteSelectedIsland();
+        });
+        
         // Add current state of island
         const xString = `${convertCoordinatesToMiles(this.island.x)} SM`;
         $container.append(this.getStaticProperty('x', xString));
@@ -39,7 +76,7 @@ export default class SelectedIslandUi {
 
         // Add button to add islands
         const $newIslandButton = $(`
-            <button type="button" class="btn btn-primary">
+            <button type="button" class="btn btn-primary mt-3">
                 Neue abhängige Insel
             </button>
         `);
@@ -52,7 +89,7 @@ export default class SelectedIslandUi {
         if (this.island.parentRelation) {
             // Add some headlines
             $container.append($(`<hr />`));
-            $container.append($(`<h4>Erreichbar von <b>${this.island.parentRelation.fromIsland.name}</b> aus durch: </h4>`));
+            $container.append($(`<h6>Erreichbar von <b>${this.island.parentRelation.fromIsland.name}</b> aus durch: </h6>`));
 
             // Add a container for the form
             const $formContainer = $(`<form class="d-flex flex-column align-items-stretch"></form>`);
@@ -70,7 +107,7 @@ export default class SelectedIslandUi {
 
             // Add submit button
             $formContainer.append($(`
-                <button type="submit" class="btn btn-success">Speichern</button>
+                <button type="submit" class="btn btn-success mt-3">Speichern</button>
             `));
 
             // Trigger recalculations of island and all children on submission, as well as UI.
@@ -91,7 +128,7 @@ export default class SelectedIslandUi {
         } else {
             // Add some headlines
             $container.append($(`<hr />`));
-            $container.append($(`<p>Diese Insel hängt von keiner anderen ab.</p>`));
+            $container.append($(`<h6>Diese Insel hängt von keiner anderen ab.</h6>`));
 
             // Add a container for the form
             const $formContainer = $(`<form class="d-flex flex-column align-items-stretch"></form>`);
@@ -128,8 +165,8 @@ export default class SelectedIslandUi {
     getStaticProperty(name, value) {
         return $(`
             <div class="d-flex justify-content-between">
-                <p>${name}</p>
-                <p>${value}</p>
+                <span>${name}</span>
+                <span>${value}</span>
             </div>
         `);
     }

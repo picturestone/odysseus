@@ -58,21 +58,6 @@ export default class SavestateController {
         return relationSave;
     }
 
-    loadSaveCode() {
-        // Remove all islands
-        this.islandController.parentIslands.length = 0;
-        const saveState = JSON.parse(this.$loadArea.val());
-        
-        saveState.islands.forEach(parentIsland => {
-            this.islandController.parentIslands.push(this.getIsland(parentIsland));
-        });
-
-        // Trigger re-render
-        this.islandController.renderAllIslands();
-        this.$loadArea.val('');
-        this.hideLoadModal();
-    }
-
     showLoadModal() {
         this.loadModal = new bootstrap.Modal(document.getElementById('loadModal'));
         this.loadModal.show();
@@ -84,9 +69,23 @@ export default class SavestateController {
         }
     }
 
-    getIsland(islandSaveState) {
-        const island = new Island(this.islandController);
+    loadSaveCode() {
+        // Remove all islands
+        this.islandController.parentIslands.length = 0;
+        const saveState = JSON.parse(this.$loadArea.val());
+        
+        saveState.islands.forEach(parentIslandSaveState => {
+            const parentIsland = new Island(this.islandController);
+            this.islandController.parentIslands.push(this.setIslandData(parentIsland, parentIslandSaveState));
+        });
 
+        // Trigger re-render
+        this.islandController.renderAllIslands();
+        this.$loadArea.val('');
+        this.hideLoadModal();
+    }
+
+    setIslandData(island, islandSaveState) {
         island.name = islandSaveState.name;
         island.note = islandSaveState.note;
         if (!islandSaveState.parentRelation) {
@@ -102,7 +101,7 @@ export default class SavestateController {
     }
 
     getChildrenRelation(relationSaveState, parentIsland) {
-        const child = this.getIsland(relationSaveState.toIsland);
+        const child = new Island(this.islandController); 
         const relation = new Relation(
             parentIsland,
             child,
@@ -111,6 +110,8 @@ export default class SavestateController {
             relationSaveState.direction
         );
         child.parentRelation = relation;
+        // Set data after relation is created so x and y are already calculated and can be used for next relations.
+        this.setIslandData(child, relationSaveState.toIsland);
 
         return relation;
     }
