@@ -98,3 +98,27 @@ One big limitation is that the position of one island can only depend on the pos
 * `npm run dev` - start dev server
 * `npm run build` - build
 * `npm run production` - build for production
+
+### Naming scheme for releases:
+
+Use the following greek islands naming scheme for releases:
+
+* Agistri
+* Corfu
+* Dokos
+* Euboea
+* Fragos
+* Gyaros
+* Hydra
+* Ithaca
+* Kefalonia
+* Lefkada
+* Mykonos
+* Naxos
+* Oinousses
+* Paros
+* Rhodes
+* Serifos
+* Thassos
+* Vryonisi
+* Zakynthos
