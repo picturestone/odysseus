@@ -1,5 +1,7 @@
+import { MILE_IN_PX } from './constants';
+
 function convertCoordinatesToMiles(coordinates) {
-    return Math.round(coordinates) / 100
+    return Math.round(coordinates) / MILE_IN_PX;
 }
 
 /**
@@ -8,7 +10,7 @@ function convertCoordinatesToMiles(coordinates) {
  * @returns float
  */
 function convertMilesToCoordinates(miles) {
-    return getFloatFromString(miles) * 100
+    return getFloatFromString(miles) * MILE_IN_PX;
 }
 
 function getFloatFromString(string, noOfDecimals = 2) {
@@ -20,5 +22,5 @@ function getFloatFromString(string, noOfDecimals = 2) {
 export {
     convertCoordinatesToMiles,
     convertMilesToCoordinates,
-    getFloatFromString
+    getFloatFromString,
 }

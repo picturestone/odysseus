@@ -38,22 +38,22 @@ export default class CanvasController {
     }
 
     translateLeft() {
-        this.translateX++;
-        this.islandController.renderAllIslands();
-    }
-
-    translateRight() {
         this.translateX--;
         this.islandController.renderAllIslands();
     }
 
+    translateRight() {
+        this.translateX++;
+        this.islandController.renderAllIslands();
+    }
+
     translateUp() {
-        this.translateY++;
+        this.translateY--;
         this.islandController.renderAllIslands();
     }
 
     translateDown() {
-        this.translateY--;
+        this.translateY++;
         this.islandController.renderAllIslands();
     }
 

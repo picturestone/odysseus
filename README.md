@@ -105,6 +105,21 @@ One big limitation is that the position of one island can only depend on the pos
 * `npm run build` - build
 * `npm run production` - build for production
 
+### Coding process:
+
+1. Make a new branch from dev
+2. Do whatever changes you need to do
+3. Add an entry to the changelog
+4. Change version number in package.json and in index.html head meta version tag
+5. Build with `npm run production`
+6. Push changes and merge to dev
+7. Merge to master
+8. Make a new release tag with github. Make the tag on the master branch.
+9. Give it the correct name from the naming scheme
+10. Add the changes entry to the description of the release
+11. Pack the contents of the dist folder into an archive called `Build.zip` and upload it as a binary
+12. Release
+
 ### Naming scheme for releases:
 
 Use the following greek islands naming scheme for releases:
