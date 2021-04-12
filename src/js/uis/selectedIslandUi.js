@@ -82,7 +82,7 @@ export default class SelectedIslandUi {
         `);
         $container.append($newIslandButton);
         $newIslandButton.on('click', () => {
-            this.islandController.addRelatedIsland(1, 1, 45);
+            this.islandController.addRelatedIsland(3, 8, 45);
         });
 
         // Parent island form to edit position of island
